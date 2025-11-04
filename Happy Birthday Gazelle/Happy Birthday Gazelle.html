@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Gazelle!</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background-color: #ffe0f0;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .page {
+    display: none;
+    height: 100vh;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .active { display: flex; }
+
+  /* Gift Image Animation */
+  .gift {
+    width: 150px;
+    height: 150px;
+    cursor: pointer;
+    animation: bounce 1.5s infinite, glow 2s infinite alternate;
+    display: inline-block;
+    transition: transform 0.2s ease;
+  }
+
+  /* Hover wiggle effect */
+  .gift:hover {
+    transform: translateY(-20px) rotate(-10deg);
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+
+  @keyframes glow {
+    0% { filter: drop-shadow(0 0 10px rgba(255,105,180,0.4)); }
+    100% { filter: drop-shadow(0 0 25px rgba(255,105,180,0.8)); }
+  }
+
+  /* Birthday Page Styles */
+  .birthday-text {
+    font-size: 60px;
+    color: #ff1493;
+    margin-top: 20px;
+    text-shadow: 2px 2px #fff;
+    z-index: 2;
+    position: relative;
+  }
+
+  .bouquet {
+    position: absolute;
+    bottom: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    opacity: 0;
+    transform: scale(0);
+    transition: transform 0.8s ease, opacity 0.8s ease;
+  }
+
+  .bouquet img { width: 100px; margin: 5px; }
+
+  .bouquet.show { opacity: 1; transform: scale(1); }
+
+  .confetti {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #ff69b4;
+    animation: fall linear infinite;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(-10px) rotate(0deg); }
+    100% { transform: translateY(100vh) rotate(360deg); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Page 1: Gift Image -->
+<div id="page1" class="page active">
+  <img id="giftImage" src="OIP Background Removed.png" alt="Gift" class="gift" onclick="openGift()">
+</div>
+
+
+
+
+<!-- Page 2: Birthday -->
+<div id="page2" class="page">
+  <div class="birthday-text">Happy Birthday Gazelle:)</div>
+  <div class="bouquet" id="bouquet">
+    <!-- All PNG cartoon flowers -->
+    <img src="pngtree-valentine-s-day-bouquet-of-roses-illustration-pink-roses-cartoon-wedding-png-image_13624301.png" alt="Rose">
+    <img src="pngtree-peony-material-hand-painted-bouquet-holding-flowers-cartoon-white-flowers-pink-png-image_7226797.png" alt="Peony">
+    <img src="pngtree-lily-flower-cartoon-png-png-image_11510324.png" alt="Lily">
+    <img src="pngtree-pink-tulip-bouquet-flowers-watercolor-ai-generated-png-image_10155237.png" alt="Tulip">
+    <img src="pngtree-cute-fruits-coconut-cartoon-png-png-image_11484253 Background Removed.png" alt="Rose">
+  </div>
+  <div class="confetti" id="confetti"></div>
+  <audio id="birthdayAudio" autoplay>
+    <source src="Ratchet Happy Birthday.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <button id="reopenButton" onclick="reopenGift()" style="
+    margin-top: 30px;
+    padding: 10px 20px;
+    font-size: 20px;
+    background-color: #ff66b3;
+    color: lightpink;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease;
+
+</div>
+
+<!-- Reopen Gift Button -->
+  <button id="reopenButton" onclick="reopenGift()">🎁 Reopen Gift 🎁</button>
+</div>
+
+<script>
+function openGift() {
+    document.getElementById('page1').classList.remove('active');
+    document.getElementById('page2').classList.add('active');
+
+
+    // Show cartoon bouquet with animation
+    const bouquet = document.getElementById('bouquet');
+    setTimeout(() => bouquet.classList.add('show'), 200);
+
+    startConfetti();
+
+    // Play audio
+    const audio = document.getElementById('birthdayAudio');
+    audio.currentTime = 11;
+    audio.play();
+    
+}
+
+function startConfetti() {
+    const confettiContainer = document.getElementById('confetti');
+    for (let i = 0; i < 100; i++) {
+        let confetti = document.createElement('div');
+        confetti.classList.add('confetti-piece');
+        confetti.style.left = Math.random() * window.innerWidth + 'px';
+        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+        confetti.style.animationDuration = (2 + Math.random() * 3) + 's';
+        confettiContainer.appendChild(confetti);
+    }
+}
+
+
+
+
+function reopenGift() {
+    // Switch back to gift page
+    document.getElementById('page2').classList.remove('active');
+    document.getElementById('page1').classList.add('active');
+
+    // Reset confetti container
+    const confettiContainer = document.getElementById('confetti');
+    confettiContainer.innerHTML = '';
+
+    // Reset bouquet animation
+    const bouquet = document.getElementById('bouquet');
+    bouquet.classList.remove('show');
+
+    // Reset audio
+    const audio = document.getElementById('birthdayAudio');
+    audio.pause();
+    audio.currentTime = 10;
+}
+</script>
+
+</body>
+</html>
+
+<script>
+function openGift() {
+  document.getElementById('page1').classList.remove('active');
+  document.getElementById('page2').classList.add('active');
+
+  // Show cartoon bouquet with animation
+  const bouquet = document.getElementById('bouquet');
+  setTimeout(() => bouquet.classList.add('show'), 200);
+
+  startConfetti();
+}
+
+function startConfetti() {
+  const confettiContainer = document.getElementById('confetti');
+  for (let i = 0; i < 100; i++) {
+    let confetti = document.createElement('div');
+    confetti.classList.add('confetti-piece');
+    confetti.style.left = Math.random() * window.innerWidth + 'px';
+    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+    confetti.style.animationDuration = (2 + Math.random() * 3) + 's';
+    confettiContainer.appendChild(confetti);
+  }
+}
+</script>
+
+</body>
+</html>
+
+
+
+
+
